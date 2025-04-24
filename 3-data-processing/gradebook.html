@@ -64,18 +64,41 @@
         console.log("---------------------")
         console.log("PART 1...")
 
+        console.log("Download Date:", gradebook.downloadDate)
 
+        console.log("Number of Students:", gradebook.students.length)
 
+        gradebook.students.forEach(student => {
+            console.log(`${student.name}: ${student.finalGrade}`)
+        })
 
+        let grades = gradebook.students.map(student => student.finalGrade)
+        console.log("Grades:", grades)
 
+        let avg = d3.mean(grades)
+        console.log("Average Grade:", avg.toFixed(2))
+
+        let median = d3.median(grades)
+        console.log("Median Grade:", median.toFixed(2))
 
         console.log("---------------------")
         console.log("PART 2...")
 
+        let table = document.getElementById("display-gradebook")
 
+        let headerRow = table.insertRow()
+        let headers = ["Student ID", "Student Name", "Final Grade"]
+        headers.forEach(headerText => {
+            let cell = headerRow.insertCell()
+            cell.innerHTML = `<strong>${headerText}</strong>`
+        })
 
-
-
+        gradebook.students.forEach(student => {
+            let row = table.insertRow()
+            row.insertCell().innerText = student.studentId
+            row.insertCell().innerText = student.name
+            row.insertCell().innerText = student.finalGrade.toFixed(1)
+        })
 
     </script>
 

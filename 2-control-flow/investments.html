@@ -46,7 +46,14 @@
         and display the resulting number of years and actual ending balance on the page.
     </p>
 
+    <h2>Run Your Own Simulation</h2>
+    <label>Initial Balance: <input id="input-balance" type="number" value="150000"></label><br>
+    <label>Target Balance: <input id="input-target" type="number" value="1000000"></label><br>
+    <label>Mean Return (%): <input id="input-mean" type="number" step="0.01" value="8"></label><br>
+    <label>Standard Deviation (%): <input id="input-stdev" type="number" step="0.01" value="15"></label><br>
+    <button id="run-simulation">Run Simulation</button>
 
+    <p id="simulation-output">Result will appear here.</p>
 
     <script src="https://cdn.jsdelivr.net/npm/d3-random@3"></script>
     <script type="text/javascript">
@@ -58,25 +65,67 @@
         console.log("---------------------")
         console.log("PART 1...")
 
+        let initialBalance = 150000
+        let balance = initialBalance
+        let target = 1000000
+        let rate = 0.08
+        let years = 0
 
+        while (balance < target) {
+            balance += balance * rate
+            years++
+        }
 
-
-
+        console.log("Initial Balance:", formatUSD(initialBalance))
+        console.log("Years Needed:", years)
+        console.log("Ending Balance:", formatUSD(balance))
 
         console.log("---------------------")
         console.log("PART 2...")
 
+        let randomReturn = d3.randomNormal(0.08, 0.15)
 
+        let initialBalance2 = 150000
+        let balance2 = initialBalance2
+        let target2 = 1000000
+        let years2 = 0
+        let yearlyReturns = []
 
+        while (balance2 < target2) {
+            let r = randomReturn()
+            yearlyReturns.push(r)
+            balance2 += balance2 * r
+            years2++
+        }
 
-
+        console.log("Initial Balance:", formatUSD(initialBalance2))
+        console.log("Years Needed:", years2)
+        console.log("Ending Balance:", formatUSD(balance2))
+        console.log("Yearly Returns:", yearlyReturns.map(r => (r * 100).toFixed(2) + "%"))
 
         console.log("---------------------")
         console.log("PART 3...")
 
+        document.getElementById("run-simulation").addEventListener("click", function() {
+            let start = parseFloat(document.getElementById("input-balance").value)
+            let goal = parseFloat(document.getElementById("input-target").value)
+            let mean = parseFloat(document.getElementById("input-mean").value) / 100
+            let stdev = parseFloat(document.getElementById("input-stdev").value) / 100
 
+            let randReturn = d3.randomNormal(mean, stdev)
+            let b = start
+            let y = 0
 
+            while (b < goal) {
+                b += b * randReturn()
+                y++
+            }
+
+            document.getElementById("simulation-output").innerHTML = 
+                `It took <strong>${y}</strong> years to reach <strong>${formatUSD(b)}</strong>.`
+        })
 
     </script>
+
 </body>
 </html>

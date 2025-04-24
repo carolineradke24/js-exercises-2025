@@ -41,8 +41,8 @@
             {
                 "id": 100200297,
                 "full_text": "Look at this delicious sandwich!",
-                "img_url": "https://sandwhoa.com/sandwich.png",
-                "user": {"screen_name": "sandwhoa", "followers": 5000},
+                "img_url": "https://sandwoah.com/sandwich.png",
+                "user": {"screen_name": "sandwoah", "followers": 5000},
                 "likes_count": 150
             },
             {
@@ -61,7 +61,7 @@
             },
             {
                 "id": 100200300,
-                "full_text": "@sandwhoa that sandwich looks amazing!!",
+                "full_text": "@sandwoah that sandwich looks amazing!!",
                 "img_url": null,
                 "user": {"screen_name": "person3", "followers": 300},
                 "likes_count": 35
@@ -78,12 +78,21 @@
         console.log("---------------------")
         console.log("PART 1...")
 
+        console.log("A. First tweet author:", tweets[0].user.screen_name)
 
+        let mentions = tweets.filter(tweet => tweet.full_text.includes("@sandwoah"))
+        console.log("B. Users who mentioned @sandwoah:")
+        mentions.forEach(tweet => {
+            console.log(tweet.user.screen_name)
+        })
 
+        let mostLiked = d3.max(mentions, tweet => tweet.likes_count)
+        let topTweet = mentions.find(tweet => tweet.likes_count === mostLiked)
+        console.log("C. Most liked mention:", topTweet.user.screen_name)
 
         console.log("---------------------")
         console.log("PART 2...")
-
+        // (Optional/Extra): Display the feed on the page. This part is empty in the assignment instructions
 
     </script>
 
